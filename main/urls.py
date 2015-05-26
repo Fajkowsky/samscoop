@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'^login/$', 'landingpage.views.login', name='login'),
     url(r'^admin/$', 'landingpage.views.admin', name='admin'),
     url(r'^survey/$', 'landingpage.views.survey', name='survey'),
+    url(r'^logout/$', 'landingpage.views.logout', name='logout'),
 ]

@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from forms import LoginForm
-from django.contrib.auth import authenticate, login as d_login
+from django.contrib.auth import authenticate, login as d_login, logout as d_logout
 
 
 def login(request):
@@ -19,10 +19,15 @@ def login(request):
             if user is not None:
                 d_login(request, user)
                 return redirect('index')
+            else:
+                return HttpResponse("No such user in database.")
     else:
         form = LoginForm()
     return render(request, 'login.html', {'form': form})
 
+def logout(request):
+    d_logout(request)
+    return redirect('login')
 
 @login_required
 def index(request):
