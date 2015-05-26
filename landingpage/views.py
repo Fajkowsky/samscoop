@@ -31,7 +31,7 @@ def logout(request):
 
 @login_required
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'index.html', {'user': request.user})
 
 
 @login_required
