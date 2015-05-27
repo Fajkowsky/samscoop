@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from forms import LoginForm, UserForm
 from django.contrib.auth import authenticate, login as d_login, logout as d_logout
 from django.contrib.auth.models import User
+from models import Questions
 
 def login(request):
     if request.user.is_authenticated():
@@ -56,4 +57,5 @@ def admin(request):
 
 @login_required
 def survey(request):
-    return render(request, 'survey.html')
+    questions = Questions.objects.all()
+    return render(request, 'survey.html', {'questions': questions})

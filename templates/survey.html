@@ -2,4 +2,22 @@
 
 {% block content %}
 <h1>survey</h1>
+<form action="{% url 'survey' %}" method="post">
+    {% csrf_token %}
+    <table border="1">
+        <tr>
+            <td>Item ID#</td>
+            <td>QUESTION</td>
+            <td>No / Unsure</td>
+            <td>Yes</td>
+            <td>Age 0-1</td>
+            <td>Age 1-2</td>
+            <td>Age 2-3</td>
+            <td>Age 3-4</td>
+            <td>Age 5-7</td>
+            <td>Age 8-11</td>
+        </tr>
+    </table>
+    <input type="submit" value="Submit" />
+</form>
 {% endblock %}
