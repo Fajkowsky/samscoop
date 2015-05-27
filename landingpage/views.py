@@ -80,12 +80,22 @@ def survey(request):
         return tmp
 
     def saver(data):
-        print(data)
+        number = data['number']
+        data.pop('number')
         for key, value in data.items():
-            pass
+            rest = {
+                'yes_no': True if value['yes_no'] == 'yes' else False,
+                'ages': ';'.join(value['ages'])
+            }
+            Answer(
+                child_number=number,
+                user_id=request.user,
+                question_id=Questions.objects.get(item_id=key),
+                **rest
+            ).save()
 
     if request.method == 'POST':
         saver(parser(request.POST))
     questions = Questions.objects.all()
-    answers = Answer.objects.all()
+    answers = Answer.objects.all().order_by('question_id')
     return render(request, 'survey.html', {'questions': questions, 'answers': answers})
