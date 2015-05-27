@@ -61,7 +61,9 @@ def survey(request):
     def parser(data):
         p = re.compile(r"\d\.\d\w?")
         w = re.compile("\d\-\d")
-        tmp = {}
+        tmp = {
+            'number': data['number']
+        }
         for key, value in data.items():
             match = p.match(key)
             if match:
@@ -75,9 +77,15 @@ def survey(request):
                     tmp[match.group()]['ages'].append(age.group())
                 else:
                     tmp[match.group()]['yes_no'] = data[key]
-        print(tmp)
+        return tmp
+
+    def saver(data):
+        print(data)
+        for key, value in data.items():
+            pass
+
     if request.method == 'POST':
-        parser(request.POST)
+        saver(parser(request.POST))
     questions = Questions.objects.all()
     answers = Answer.objects.all()
     return render(request, 'survey.html', {'questions': questions, 'answers': answers})

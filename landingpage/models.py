@@ -7,6 +7,7 @@ class Questions(models.Model):
     question = models.TextField()
 
 class Answer(models.Model):
+    child_number = models.CharField(max_length=9, default='')
     question_id = models.ForeignKey('Questions')
     yes_no = models.BooleanField()
     ages = models.CharField(max_length=255)
