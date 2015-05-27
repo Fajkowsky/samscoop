@@ -2,4 +2,27 @@
 
 {% block content %}
 <h1>admin</h1>
+<a href="{% url 'index' %}">menu</a>
+
+<h2>Create new user</h2>
+<form action="{% url 'admin' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit" />
+</form>
+<h2>User list</h2>
+<table>
+    <tr>
+        <td><b>id</b></td>
+        <td> / </td>
+        <td><b>username</b></td>
+    </tr>
+    {% for user in users %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td> / </td>
+        <td>{{user.username}}</td>
+    </tr>
+    {% endfor %}
+</table>
 {% endblock %}

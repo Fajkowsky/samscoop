@@ -1,3 +1,6 @@
 from django.db import models
 
-# Create your models here.
+
+class Questions(models.Model):
+    item_id = models.CharField(max_length=5)
+    question = models.TextField()
