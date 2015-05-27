@@ -4,7 +4,8 @@ from django.http import HttpResponse
 from forms import LoginForm, UserForm
 from django.contrib.auth import authenticate, login as d_login, logout as d_logout
 from django.contrib.auth.models import User
-from models import Questions
+from models import Questions, Answer
+import re
 
 def login(request):
     if request.user.is_authenticated():
@@ -57,5 +58,26 @@ def admin(request):
 
 @login_required
 def survey(request):
+    def parser(data):
+        p = re.compile(r"\d\.\d\w?")
+        w = re.compile("\d\-\d")
+        tmp = {}
+        for key, value in data.items():
+            match = p.match(key)
+            if match:
+                if not match.group() in tmp:
+                    tmp[match.group()] = {
+                        'yes_no': '',
+                        'ages': []
+                    }
+                if data[key] == 'on':
+                    age = w.search(key)
+                    tmp[match.group()]['ages'].append(age.group())
+                else:
+                    tmp[match.group()]['yes_no'] = data[key]
+        print(tmp)
+    if request.method == 'POST':
+        parser(request.POST)
     questions = Questions.objects.all()
-    return render(request, 'survey.html', {'questions': questions})
+    answers = Answer.objects.all()
+    return render(request, 'survey.html', {'questions': questions, 'answers': answers})
